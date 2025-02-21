@@ -26,7 +26,7 @@ class Run(InputValuesInspector):
         sorted_by_salary_in_range: list = JobOpening.opening_get_top_salaries(sorted_by_salary, top_range)
         self.printing_function(sorted_by_salary_in_range)
         should_save = input("Хотите сохранить результат (да/нет)? ")
-        if should_save.lower() == "да":
+        if should_save.lower().strip() == "да":
             saver = JsonSaver()
             file_name = input("Введите название файла:  ")
             saver.save_json(file_name, sorted_by_salary_in_range)
@@ -39,8 +39,3 @@ class Run(InputValuesInspector):
     def printing_function(iter_object: list) -> None:
         for opening in iter_object:
             print(str(opening))
-
-
-if __name__ == "__main__":
-    run_instance = Run()
-    run_instance.start()
