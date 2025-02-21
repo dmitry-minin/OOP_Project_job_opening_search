@@ -6,13 +6,6 @@ class BaseJobOpening(ABC):
     Abstract class for JobOpening.
     """
 
-    @abstractmethod
-    def __init__(self, *args, **kwargs) -> None:
-        """
-        Abstract method for initialization
-        """
-        pass
-
     @classmethod
     @abstractmethod
     def get_openings_by_key_words(cls, use_keywords: str) -> list:
@@ -49,7 +42,7 @@ class JobOpening(BaseJobOpening):
     """
     Slot for job_id, name, url, salary_from, salary_to, currency, salary_is_gross, salary_max_mentioned,
     requirement, responsibility.
-    To restrict creation of an additional attribute
+    To restrict creation of an additional attribute, and optimize memory usage
     """
 
     def __init__(self, job_id: str, name: str, url: str, salary_from: int, salary_to: int,

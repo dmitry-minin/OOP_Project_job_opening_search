@@ -2,20 +2,11 @@ from abc import ABC, abstractmethod
 import json
 import os
 
-from src.job_openings_class import JobOpening
-
 
 class DataSaver(ABC):
 
     @abstractmethod
-    def __init__(self):
-        """
-        Abstract method for Initializer
-        """
-        pass
-
-    @abstractmethod
-    def save_json(self, filename: str, data: dict) -> None:
+    def save_json(self, filename: str, data: list) -> None:
         """
         Abstract method for save_json method
         """
@@ -28,7 +19,7 @@ class JsonSaver(DataSaver):
         Initialize the JsonSaver with the given file directory.
         """
         self.file_path = None
-        self.file_directory = os.path.abspath("../data")
+        self.file_directory = os.path.abspath(os.path.join(__file__, os.pardir, os.pardir, "data"))
 
 
     def save_json(self, filename: str, obj_list: list) -> None:
@@ -45,7 +36,18 @@ class JsonSaver(DataSaver):
         """
         Helper method to convert list of objects to a dictionary of objects.
         """
-        return [obj.__dict__ for obj in obj_list]
+        result = []
+        for obj in obj_list:
+            obj_dict = {}
+            if hasattr(obj_list, '__dict__') and obj_list.__dict__:
+                obj_dict.update(obj_list.__dict__)
+
+            slots = getattr(obj.__class__, "__slots__", None)
+            if slots:
+                for slot in slots:
+                    obj_dict[slot] = getattr(obj, slot)
+            result.append(obj_dict)
+        return result
 
     def add_opening_to_json(self, obj) -> None:
         """
@@ -82,25 +84,3 @@ class JsonSaver(DataSaver):
 
         with open(self.file_path, 'w', encoding="utf-8") as f:
             json.dump(data, f, indent=4, ensure_ascii=False)
-
-
-if __name__ == "__main__":
-    json_saver = JsonSaver()
-    obj_list = [
-        JobOpening('11', 'DevOps', 'https://api.hh.ru', 50000, 100000,
-                   'USD', 'Зарплата указана gross.', 100000,
-                   'Test requirement', 'Test responsibility'),
-        JobOpening('11', 'DevOps', 'https://api.hh.ru', 60000, 200000,
-                   'USD', 'Зарплата указана gross.', 200000,
-                   'Test requirement', 'Test responsibility'),
-        JobOpening('11', 'DevOps', 'https://api.hh.ru', 70000, 300000,
-                   'USD', 'Зарплата указана gross.', 300000,
-                   'Test requirement', 'Test responsibility')
-    ]
-    json_saver.save_json("new_test_file", obj_list)
-    json_saver.add_opening_to_json(JobOpening('12', 'I WAS ADDED', 'https://api.hh.ru', 10, 200, 'USD', 'Зарплата указана gross.', 200000, 'A requirement', 'A responsibility'))
-    # json_saver.delete_opening_from_json(
-    #     JobOpening('11', 'DevOps', 'https://api.hh.ru', 50000, 100000,
-    #                'USD', 'Зарплата указана gross.', 100000,
-    #                'Test requirement', 'Test responsibility')
-    # )

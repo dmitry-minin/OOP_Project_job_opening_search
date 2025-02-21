@@ -126,8 +126,6 @@ class InputValuesInspector(ValuesInspector):
         elif not salary_min.strip():
             salary_min = 0
             return salary_min
-        elif salary_min.isdigit():
-            return int(salary_min)
         return 0
 
     @staticmethod
@@ -154,10 +152,3 @@ class InputValuesInspector(ValuesInspector):
             print("Вы указали некорректный диапазон, будет выведено топ 100 по зарплате")
             top_range = 100
             return top_range
-
-
-if __name__ == "__main__":
-    inspector = OpeningValuesInspector()
-    print(inspector.salary_max_mentioned(3000, 5500))
-    print(inspector.salary_check_to(5500))
-    print(inspector.salary_check_from(3000))

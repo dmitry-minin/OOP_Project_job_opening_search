@@ -5,7 +5,6 @@ import tempfile
 import json
 
 
-
 def test_save_json_(job_openings_list1):
     """
     Test the save_json method file wit correct structure of job_openings_list created
