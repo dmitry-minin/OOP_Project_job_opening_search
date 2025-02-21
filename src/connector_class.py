@@ -3,12 +3,6 @@ import requests
 
 
 class BaseAPIConnector(ABC):
-    @abstractmethod
-    def __init__(self):
-        """
-        Abstract method for the class Initializer.
-        """
-        pass
 
     @abstractmethod
     def get_openings(self, *args):

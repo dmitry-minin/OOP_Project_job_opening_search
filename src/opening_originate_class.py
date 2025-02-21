@@ -30,28 +30,3 @@ class OriginateOpening(OpeningValuesInspector):
                 JobOpening.openings_list.append(JobOpening(job_id, name, url, salary_from, salary_to,
                                                            currency, salary_is_gross, salary_max_mentioned,
                                                            requirement, responsibility))
-
-
-if __name__ == '__main__':
-    originate_opening = OriginateOpening()
-    originate_opening.create_instance([
-        {
-            'id': '115948521', 'premium': False, 'name': 'DevOps (IGaming)', 'department': None,
-            'salary':
-                {
-                    'from': 3000, 'to': 5500, 'currency': 'USD', 'gross': False
-                },
-            'published_at': '2025-02-13T16:55:10+0300', 'created_at': '2025-02-13T16:55:10+0300',
-            'archived': False, "url": "https://api.hh.ru/vacancies/115760953?host=hh.ru",
-            'snippet':
-                {
-                    'requirement': 'Опыт работы от 5 лет.',
-                    'responsibility': 'Создание элементов IaC (ansible, terraform).'
-                },
-            'accept_temporary': False, 'fly_in_fly_out_duration': [],
-            'work_format': [{'id': 'REMOTE', 'name': 'Удалённо'}],
-            'working_hours': [{'id': 'HOURS_8', 'name': '8\xa0часов'}],
-            'work_schedule_by_days': [{'id': 'FIVE_ON_TWO_OFF', 'name': '5/2'}], 'night_shifts': False,
-            'experience': {'id': 'between3And6', 'name': 'От 3 до 6 лет'}
-        }])
-    print(JobOpening.openings_list[0])
